@@ -55,6 +55,29 @@ public class JuheWeather {
             e.printStackTrace();
         }
     }
+    //1.根据城市查询天气
+    public static String getRequest2(String cityname) {
+        String result = null;
+        String url = "http://op.juhe.cn/onebox/weather/query";//请求接口地址
+        Map params = new HashMap();//请求参数
+        params.put("cityname", cityname);//要查询的城市，如：温州、上海、北京
+        params.put("key", APPKEY);//应用APPKEY(应用详细页查询)
+        params.put("dtype", "");//返回数据的格式,xml或json，默认json
+
+        try {
+            result = net(url, params, "GET");
+            JSONObject object = new JSONObject(result);
+            if (object.getInt("error_code") == 0) {
+                System.out.println(object.get("result"));
+            } else {
+                System.out.println(object.get("error_code") + ":" + object.get("reason"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 
     public static void main(String[] args) {
 
